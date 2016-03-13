@@ -1,0 +1,58 @@
+{% from "macros.html" import nav_link with context %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {#    need jquery, bootstrap js, and bootstrap css for everything to work#}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{
+  url_for('static', filename='js/jquery.js') }}">\x3C/script>')</script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mynavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            {#            different nav bar brand depending on screen size#}
+            <a class="navbar-brand" title="401K" href="{{ url_for("index") }}">401K</a>
+        </div>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="nav navbar-nav">
+                {{ nav_link('index', 'About') }}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{#for non-cell phones and tablets#}
+<div class="visible-md visible-lg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <br>
+                <br>
+                <br>
+                {% include page_to_insert %}
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-3">
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

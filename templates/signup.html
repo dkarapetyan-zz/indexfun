@@ -1,44 +1,21 @@
-<form action="/signup" class="form" method="POST">
-    <div style="display: none">
-        <input id="csrf_token" name="csrf_token" type="hidden"
-               value="1383635238.9##d8f7f433e854cc682ade261cd9bb7113a147ee29"/>
-    </div>
-    <div class="heading">
-        <h4 class="form-heading">Publish your biography to the world!</h4>
-    </div>
-    <div class="form-group ">
-        <label for="email">Email address</label>
-        <input class="form-control" id="email" name="email" type="text"
-               value=""/>
-
-        <p class="help-block">
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 
-    </div>
-    <div class="form-group  has-error ">
-        <label for="password">Pick a secure password</label>
-        <input class="form-control" id="password" name="password"
-               type="password"/>
 
-        <p class="help-block">
-            This field is required.
+{% block content %}
 
-    </div>
-    <div class="form-group  has-error ">
-        <label for="username">Choose your username</label>
-        <input class="form-control" id="username" name="username" type="text"/>
+    <form class="form form-horizontal" action={{ "" }}"" method="post"
+          role="form">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_errors(form) }}
+        {{ wtf.form_field(form.username) }}
+        {{ wtf.form_field(form.password) }}
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.agree) }}
+        {{ wtf.form_field(form.submit, button_map={'submit':'success'}) }}
+    </form>
+{%- endblock %}
 
-        <p class="help-block">
-            This field is required.
 
-    </div>
-    <div class="form-group  has-error ">
-        <label class="checkbox">
-            <input id="agree" name="agree" type="checkbox" value="y"/> <label
-                for="agree">I agree all your </label></label>Terms of Services
-        <p class="help-block">
-            You must accept our Terms of Service
 
-    </div>
-    <button class="btn btn-success" type="submit">Sign Up</button>
-</form>

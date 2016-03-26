@@ -1,7 +1,13 @@
 from flask import redirect, Flask, request, render_template, url_for
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+app.config.from_pyfile('default.cfg')
 
+
+# @application.route('/signup')
+# def signup():
+#     return render_template('signup.html', page_title = 'Signup to Bio
+# Application')
 
 @app.route('/', methods=["GET", "POST"])
 def index():

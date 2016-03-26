@@ -10,8 +10,8 @@ from wtforms.validators import Length, Email
 
 def create_app():
     _app = Flask(__name__, static_folder='static', template_folder='templates')
-    _app.config.from_pyfile('default.cfg')
     Bootstrap(_app)
+    _app.config.from_pyfile('default.cfg')
     return _app
 
 
@@ -43,22 +43,17 @@ class SignupForm(Form):
 
 @app.route('/signup', methods=("GET", "POST"))
 def signup():
+    if request.method == "POST":
+        form = request.form
+        if form.validate_on_submit():
+            return redirect(url_for("info"))
     return render_template('layout.html', form=SignupForm(),
                            page_to_insert="signup.html")
 
 
-def submit():
-    form = SignupForm()
-    if form.validate_on_submit():
-        return redirect(url_for("success"))
-    return render_template("signup.html")
-
-
 @app.route('/', methods=["GET", "POST"])
 def index():
-    if request.method == "POST":
-        return redirect(url_for("liquid"))
-    return render_template("layout.html", page_to_insert="intro.html")
+    return redirect(url_for("signup"))
 
 
 @app.route("/liquid", methods=["GET", "POST"])

@@ -5,8 +5,7 @@
 
 {% block content %}
 
-    <form class="form form-horizontal" action={{ "" }}"" method="post"
-          role="form">
+    <form class="form form-horizontal" method="post" role="form">
         {{ form.hidden_tag() }}
         {{ wtf.form_errors(form) }}
         {{ wtf.form_field(form.username) }}

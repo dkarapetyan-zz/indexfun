@@ -19,9 +19,6 @@ app = create_app()
 
 
 class SignupForm(Form):
-    def generate_csrf_token(self, csrf_context):
-        pass
-
     email = StringField('Email address',
                         validators=[
                             DataRequired(

@@ -11,7 +11,7 @@ from wtforms.validators import Length, Email
 def create_app():
     _app = Flask(__name__, static_folder='static', template_folder='templates')
     Bootstrap(_app)
-    _app.config.from_pyfile('default.cfg')
+    _app.config.from_pyfile('config.py')
     return _app
 
 

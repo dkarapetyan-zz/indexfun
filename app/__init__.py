@@ -1,82 +1,28 @@
-from flask import redirect, Flask, request, render_template, url_for
+from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_wtf import Form
-import wtforms
-from wtforms import StringField, \
-    PasswordField, BooleanField
-from wtforms.validators import DataRequired
-from wtforms.validators import Length, Email
+from flask_mail import Mail
+from flask_moment import Moment
+from flask_sqlalchemy import SQLAlchemy
+
+from config import config
+
+bootstrap = Bootstrap()
+mail = Mail()
+moment = Moment()
+db = SQLAlchemy()
 
 
-def create_app():
-    _app = Flask(__name__, static_folder='static', template_folder='templates')
-    Bootstrap(_app)
-    _app.config.from_pyfile('config.py')
-    return _app
+def create_app(config_name):
+    app = Flask(__name__, static_folder='static', template_folder='templates')
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
+    bootstrap.init_app(app)
+    mail.init_app(app)
+    moment.init_app(app)
+    db.init_app(app)
 
-app = create_app()
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
-
-class SignupForm(Form):
-    email = StringField('Email address',
-                        validators=[
-                            DataRequired(
-                                'Please provide a valid email address'),
-                            Length(min=6, message=u'Email address too short'),
-                            Email(
-                                message=u'That\'s not a valid email address.')])
-    password = PasswordField('Pick a secure password',
-                             validators=[
-                                 DataRequired(),
-                                 Length(min=6,
-                                        message='Please give a longer '
-                                                'password')])
-    username = StringField('Choose your username',
-                           validators=[DataRequired()])
-    agree = BooleanField('I agree to all the Terms of Services',
-                         validators=[
-                             DataRequired(
-                                 u'You must accept our Terms of Service')])
-    submit = wtforms.SubmitField("Submit")
-
-
-@app.route('/signup', methods=("GET", "POST"))
-def signup():
-    if request.method == "POST":
-        form = request.form
-        if form.validate_on_submit():
-            return redirect(url_for("info"))
-    return render_template('layout.html', form=SignupForm(),
-                           page_to_insert="signup.html")
-
-
-@app.route('/', methods=["GET", "POST"])
-def index():
-    return redirect(url_for("signup"))
-
-
-@app.route("/liquid", methods=["GET", "POST"])
-def liquid():
-    # filled = request.form.getlist("check")
-    if request.method == "POST":
-        return redirect(url_for("bank"))
-    return render_template("layout.html", page_to_insert="liquid.html")
-
-
-@app.route("/bank", methods=["GET", "POST"])
-def bank():
-    if request.method == "POST":
-        return redirect(url_for("recurring"))
-    return render_template("layout.html", page_to_insert="bank.html")
-
-
-@app.route("/recurring", methods=["GET", "POST"])
-def recurring():
-    if request.method == "POST":
-        return redirect(url_for("index"))
-    return render_template("layout.html", page_to_insert="recurring.html")
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return app

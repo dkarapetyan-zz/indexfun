@@ -10,7 +10,7 @@ def signup():
     if request.method == "POST":
         form = request.form
         if form.validate_on_submit():
-            return redirect(url_for("main.info"))
+            return redirect(url_for("main.signup"))
     return render_template('layout.html', form=SignupForm(),
                            page_to_insert="signup.html")
 

@@ -33,10 +33,8 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User()
-        user.email = form.email.data,
-        user.password(form.password.data)
-        user.username(form.username.data)
+        user = User(username=form.username.data, password=form.password.data,
+                    email=form.email.data)
         db.session.add(user)
         flash('You can now login.')
         return redirect(url_for('auth.login'))

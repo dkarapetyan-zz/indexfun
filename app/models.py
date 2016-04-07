@@ -20,6 +20,11 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(64), unique=True, index=True)
 
+    def __init__(self, username=None, password=None, email=None):
+        self.username = username
+        self.password(password)
+        self.email = email
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

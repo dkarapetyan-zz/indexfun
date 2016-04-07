@@ -5,7 +5,6 @@ from wtforms import StringField, \
 from wtforms.validators import DataRequired
 from wtforms.validators import Length, Email
 
-__author__ = 'davidkarapetyan'
 
 
 class SignupForm(Form):

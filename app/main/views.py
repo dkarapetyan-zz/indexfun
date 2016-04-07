@@ -1,8 +1,9 @@
-__author__ = 'davidkarapetyan'
 from flask import render_template, redirect, url_for, request
 
 from . import main
 from .forms import SignupForm
+
+__author__ = 'davidkarapetyan'
 
 
 @main.route('/signup', methods=("GET", "POST"))

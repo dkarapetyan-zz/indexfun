@@ -1,8 +1,8 @@
+import os
+
 DEBUG = True
 WTF_CSRF_ENABLED = True
 WTF_SECRET_KEY = '7136d81446d5caabe16ac77cd41df5d3'
-
-import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,9 +27,9 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-                              'sqlite:///' + os.path.join(basedir,
-                                                          'data-dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir,
+                                                           'data-dev.sqlite')
 
 
 class TestingConfig(Config):

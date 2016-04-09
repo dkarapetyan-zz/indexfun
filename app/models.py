@@ -22,10 +22,12 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, default=False)
 
-    def __init__(self, username=None, password=None, email=None):
+    def __init__(self, username=None, password=None, email=None,
+                 confirmed=False):
         self.username = username
         self.password(password)
         self.email = email
+        self.confirmed = confirmed
 
     @property
     def password(self):

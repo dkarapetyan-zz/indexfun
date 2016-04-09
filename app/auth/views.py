@@ -4,6 +4,7 @@ from flask.ext.login import login_user, logout_user, login_required
 from . import auth
 from ..models import User, db
 from .forms import LoginForm, RegistrationForm
+from ..mail import send_email
 
 __author__ = 'davidkarapetyan'
 
@@ -36,6 +37,10 @@ def register():
         user = User(username=form.username.data, password=form.password.data,
                     email=form.email.data)
         db.session.add(user)
+        db.session.commit()
+        token = user.generate_confirmation_token()
+        send_email(user.email, 'Confirm Your Account', 'auth/email/confirm',
+                   user=user, token=token)
         flash('You can now login.')
         return redirect(url_for('auth.login'))
     else:

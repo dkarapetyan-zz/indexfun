@@ -1,24 +1,13 @@
 from flask import render_template, redirect, url_for, request
 
 from . import main
-from .forms import SignupForm
 
 __author__ = 'davidkarapetyan'
 
 
-@main.route('/signup', methods=("GET", "POST"))
-def signup():
-    if request.method == "POST":
-        form = SignupForm()
-        if form.validate_on_submit():
-            return redirect(url_for("main.liquid"))
-    return render_template('layout.html', form=SignupForm(),
-                           page_to_insert="signup.html")
-
-
 @main.route('/', methods=["GET", "POST"])
 def index():
-    return redirect(url_for("main.signup"))
+    return render_template('layout.html')
 
 
 @main.route("/liquid", methods=["GET", "POST"])

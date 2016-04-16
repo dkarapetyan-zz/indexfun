@@ -7,7 +7,7 @@ __author__ = 'davidkarapetyan'
 
 @main.route('/', methods=["GET", "POST"])
 def index():
-    return render_template('layout.html')
+    return render_template('layout.html', page_to_insert="index.html")
 
 
 @main.route("/liquid", methods=["GET", "POST"])

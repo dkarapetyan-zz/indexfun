@@ -18,7 +18,7 @@
                    href="{{ url_for("main.index") }}">Index Fund</a>
             </div>
             <div class="collapse navbar-collapse" id="mynavbar">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         {% if current_user.is_authenticated %}
                             {{ nav_link('auth.logout', 'Sign Out') }}
@@ -32,24 +32,8 @@
     </nav>
 {% endblock %}
 
-{% block content %}
-    {#for non-cell phones and tablets#}
-    <div class="visible-md visible-lg">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <br>
-                    <br>
-                    <br>
-                    {% include page_to_insert %}
-                </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-3">
-                    <br>
-                    <br>
-                </div>
-            </div>
-        </div>
-    </div>
 
+{% block content %}
 {% endblock %}
+
+

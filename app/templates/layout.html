@@ -1,5 +1,4 @@
 {% extends 'bootstrap/base.html' %}
-{% from "macros.html" import nav_link with context %}
 {% block title %} Index Fund {% endblock %}
 <div class="container">
     {% for message in get_flashed_messages() %}
@@ -30,9 +29,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         {% if current_user.is_authenticated %}
-                            {{ nav_link('auth.logout', 'Sign Out') }}
+                            <a href="{{ url_for('auth.logout') }}"> Logout </a>
                         {% else %}
-                            {{ nav_link('auth.login', 'Sign In') }}
+                            <a href="{{ url_for('auth.login') }}"> Login </a>
                         {% endif %}
                     </li>
                 </ul>

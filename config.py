@@ -1,18 +1,20 @@
 import os
 
-WTF_CSRF_ENABLED = True
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
-    WTF_SECRET_KEY = os.environ.get('WTF_SECRET_KEY')
-    SECRET_KEY = os.environ.get('WTF_SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    INDEX_FUND_MAIL_SUBJECT_PREFIX = os.environ.get(
-        'INDEX_FUND_MAIL_SUBJECT_PREFIX')
-    INDEX_FUND_MAIL_SENDER = os.environ.get('INDEX_FUND_MAIL_SENDER ')
-    INDEX_FUND_ADMIN = os.environ.get('INDEX_FUND_ADMIN')
+    WTF_CSRF_ENABLED = True
+    WTF_SECRET_KEY = "7136d81446d5caabe16ac77cd41df5d3"
+    SECRET_KEY = "7136d81446d5caabe16ac77cd41df5d3"
+    MAIL_USERNAME = "indexfund1"
+    MAIL_PASSWORD = "rainbow!#"
+    DEV_DATABASE_URI = "postgres://postgres@localhost/index_fund"
+    INDEX_FUND_MAIL_SUBJECT_PREFIX = '[Index Fund]'
+    INDEX_FUND_MAIL_SENDER = 'David Karapetyan <indexfund1@gmail.com>'
+    INDEX_FUND_ADMIN = "David Karapetyan"
 
     @staticmethod
     def init_app(app):
@@ -24,10 +26,6 @@ class DevelopmentConfig(Config):
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    DEV_DATABASE_URI = os.environ.get(
-        'DEV_DATABASE_URI')
 
 
 class TestingConfig(Config):

@@ -1,7 +1,4 @@
-import os
-
 from flask.ext.script import Manager, Shell, Server
-
 from flask.ext.migrate import Migrate, MigrateCommand
 
 from app import create_app, db
@@ -9,7 +6,7 @@ from app.models import User, Role
 
 __author__ = 'davidkarapetyan'
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'development')
+app = create_app('development')
 
 manager = Manager(app)
 migrate = Migrate(app, db)

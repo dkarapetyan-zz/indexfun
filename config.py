@@ -1,19 +1,18 @@
 import os
 
-DEBUG = True
 WTF_CSRF_ENABLED = True
-WTF_SECRET_KEY = '7136d81446d5caabe16ac77cd41df5d3'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    WTF_SECRET_KEY = os.environ.get('WTF_SECRET_KEY')
+    SECRET_KEY = os.environ.get('WTF_SECRET_KEY')
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    INDEX_FUND_MAIL_SUBJECT_PREFIX = os.environ.get(
+        'INDEX_FUND_MAIL_SUBJECT_PREFIX')
+    INDEX_FUND_MAIL_SENDER = os.environ.get('INDEX_FUND_MAIL_SENDER ')
+    INDEX_FUND_ADMIN = os.environ.get('INDEX_FUND_ADMIN')
 
     @staticmethod
     def init_app(app):

@@ -8,6 +8,12 @@ __author__ = 'davidkarapetyan'
 
 app = create_app('development')
 
+
+@app.before_first_request
+def initialize_database():
+    db.create_all()
+
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 

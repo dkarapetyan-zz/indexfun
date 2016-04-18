@@ -1,20 +1,15 @@
-{% extends "bootstrap/base.html" %}
+{% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 
-
 {% block content %}
-
-    <form class="form form-horizontal" method="post" role="form">
-        {{ form.hidden_tag() }}
-        {{ wtf.form_errors(form) }}
-        {{ wtf.form_field(form.username) }}
-        {{ wtf.form_field(form.password) }}
-        {{ wtf.form_field(form.email) }}
-        {{ wtf.form_field(form.agree) }}
-        {{ wtf.form_field(form.submit, button_map={'submit':'success'}) }}
-    </form>
-{%- endblock %}
+    {{ super() }}
+    <div class="container">
+        <form class="form form-horizontal" method="post" role="form">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </form>
+    </div>
+{% endblock %}
 
 
 

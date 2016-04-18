@@ -1,18 +1,16 @@
-<p>That's it, you're done! Would you like this to be a one-time investment
-    or would you like to setup a schedule for auto-investing
-    more in the future?</p>
-<form method="POST" role="form">
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" value="">
-            Auto-invest
-        </label>
-    </div>
-    <div class="checkbox">
-        <label> <input type="checkbox" value="">
-            One time
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+    {{ super() }}
+    <div class="container">
 
-</form>
+        <p>That's it, you're done! Would you like this to be a one-time
+            investment
+            or would you like to setup a schedule for auto-investing
+            more in the future?</p>
+
+        <form class="form form-horizontal" method="post" role="form">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </form>
+    </div>
+{% endblock %}

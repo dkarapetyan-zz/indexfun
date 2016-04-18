@@ -1,20 +1,20 @@
-<p>Would you like this to be liquid (you can take out however much you like at
-    any time without a tax penalty), or is this for saving for retirement
-    (i.e. you can pull it out after you turn 60 without tax penalty. Otherwise,
-    you will have a tax penalty)?
-</p>
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+    {{ super() }}
+    <div class="container">
+        <p>Would you like this to be liquid (you can take out however much you
+            like
+            at
+            any time without a tax penalty), or is this for saving for
+            retirement
+            (i.e. you can pull it out after you turn 60 without tax penalty.
+            Otherwise,
+            you will have a tax penalty)?
+        </p>
 
-<form method="POST" role="form">
-    <div class="checkbox">
-        <label>
-            <input type="checkbox" name="check" value="">
-            Yes
-        </label>
+        <form class="form form-horizontal" method="post" role="form">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </form>
     </div>
-    <div class="checkbox">
-        <label> <input type="checkbox" name="check" value="">
-            No
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+{% endblock %}

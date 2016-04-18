@@ -1,7 +1,14 @@
-<p>Great! To set that up, I'll need your bank account information.
-</p>
-<form method="POST" role="form" class="form-inline">
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+    {{ super() }}
+    <div class="container">
+
+        <p>Great! To set that up, I'll need your bank account information.
+        </p>
+
+        <form class="form form-horizontal" method="post" role="form">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </form>
     </div>
-</form>
+{% endblock %}

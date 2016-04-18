@@ -1,3 +1,4 @@
+{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 
     {{ super() }}
@@ -11,5 +12,9 @@
 
         <p> How much would you like to invest?
         </p>
+
+        <form class="form form-horizontal" method="post" role="form">
+            {{ wtf.quick_form(form, button_map={'submit':'success'}) }}
+        </form>
     </div>
 {% endblock %}

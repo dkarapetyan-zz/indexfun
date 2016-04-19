@@ -23,7 +23,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = False
     MAIL_USERNAME = "indexfund1@gmail.com"
     MAIL_PASSWORD = "rainbow!#"
-    DEV_DATABASE_URI = "postgres://postgres@localhost/index_fund"
+    SQLALCHEMY_DATABASE_URI = "postgres://localhost/index_fund"
     INDEX_FUND_MAIL_SUBJECT_PREFIX = '[Index Fund]'
     INDEX_FUND_MAIL_SENDER = 'David Karapetyan <indexfund1@gmail.com>'
     INDEX_FUND_ADMIN = "David Karapetyan"

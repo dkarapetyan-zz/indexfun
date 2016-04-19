@@ -1,5 +1,5 @@
-from flask.ext.script import Manager, Shell, Server
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_script import Manager, Shell, Server
+from flask_migrate import Migrate, MigrateCommand
 
 from app import create_app, db
 from app.models import User, Role
@@ -7,11 +7,6 @@ from app.models import User, Role
 __author__ = 'davidkarapetyan'
 
 app = create_app('development')
-
-
-@app.before_first_request
-def initialize_database():
-    db.create_all()
 
 
 manager = Manager(app)

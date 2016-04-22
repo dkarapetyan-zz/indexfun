@@ -44,8 +44,6 @@ class User(db.Model):
             return False
         if data.get('confirm') != self.id:
             return False
-        self.confirmed = True
-        db.session.add(self)
         return True
 
     #### for flask-login

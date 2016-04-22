@@ -42,7 +42,8 @@ def register():
         token = user.generate_confirmation_token()
         send_email(user.email, 'Confirm Your Account', 'auth/confirm_email',
                    user=user, token=token)
-        flash('You can now login.')
+        flash('A confirmation email has been sent via email. Please click'
+              ' its enclosed link to enable your account.')
         return redirect(url_for('auth.login'))
     else:
         return render_template('auth/register.html', form=form)
@@ -54,7 +55,7 @@ def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
-        flash('You have confirmed your account. Thanks!')
+        flash('You have confirmed your account. You may now log in.')
     else:
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
@@ -72,7 +73,9 @@ def before_request():
 def unconfirmed():
     if current_user.is_anonymous() or current_user.confirmed:
         return redirect('main.index')
-    return render_template('auth/unconfirmed.html')
+    else:
+        flash("Please confirm your account")
+        return render_template('auth/unconfirmed.html')
 
 
 @auth.route('/confirm')

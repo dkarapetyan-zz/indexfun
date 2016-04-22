@@ -76,4 +76,4 @@ def user_loader(user_id):
 
     :param unicode user_id: user_id (email) user to retrieve
     """
-    return User.query.get(user_id)
+    return User.query.filter(User.email == user_id).first()

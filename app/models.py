@@ -1,11 +1,10 @@
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, flash
 from flask.ext.login import UserMixin, AnonymousUserMixin
-
-from .mail import send_email
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db, login_manager
+from .mail import send_email
 
 
 class Role(db.Model):
@@ -68,4 +67,4 @@ def user_loader(user_id):
 
     :param unicode user_id: user_id (email) user to retrieve
     """
-    return User.query.filter(User.email == user_id).first()
+    return User.query.get(int(user_id))

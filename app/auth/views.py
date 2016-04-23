@@ -1,10 +1,10 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask.ext.login import login_user, logout_user, login_required, \
     current_user
 
 from . import auth
-from ..models import User, db
 from .forms import LoginForm, RegistrationForm
+from ..models import User, db
 
 __author__ = 'davidkarapetyan'
 
@@ -14,15 +14,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
-            if user.confirmed:
-                login_user(user, form.remember_me.data)
-            else:
-                user.send_confirmation()
-            return redirect(url_for('main.index'))
+        if user is None:
+            flash('Invalid username.')
+        elif not user.verify_password(form.password.data):
+            flash('Invalid password.')
         else:
-            flash('Invalid username or password.')
-    return render_template('auth/login.html', form=form)
+            login_user(user, form.remember_me.data)
+            flash('Successfully logged in.')
+            return redirect(request.args.get('next') or url_for('main.index'))
+    else:
+        return render_template('auth/login.html', form=form)
 
 
 @auth.route('/logout')
@@ -54,8 +55,6 @@ def register():
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
-    if current_user.is_anonymous:
-        return redirect(url_for('auth.login'))
     if not current_user.confirmed:
         if current_user.confirm(token):
             current_user.confirmed = True

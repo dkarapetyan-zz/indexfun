@@ -1,6 +1,7 @@
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import current_app, flash
+from flask.ext.login import UserMixin, AnonymousUserMixin
 
 from .mail import send_email
 
@@ -16,7 +17,7 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-class User(db.Model):
+class User(db.Model, UserMixin, AnonymousUserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
@@ -55,23 +56,6 @@ class User(db.Model):
                    user=self, token=token)
         flash('A confirmation email has been sent via email. Please click'
               ' its enclosed link to enable your account and login.')
-
-    #### for flask-login
-    def is_active(self):
-        """True, as all users are active."""
-        return True
-
-    def get_id(self):
-        """Return the email address to satisfy Flask-Login's requirements."""
-        return self.email
-
-    def is_authenticated(self):
-        """Return True if the user is authenticated."""
-        return self.authenticated
-
-    def is_anonymous(self):
-        """False, as anonymous users aren't supported."""
-        return False
 
     def __repr__(self):
         return '<User %r>' % self.username

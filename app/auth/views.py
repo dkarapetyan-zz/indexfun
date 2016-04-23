@@ -54,6 +54,8 @@ def register():
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
+    if current_user.is_anonymous:
+        return redirect(url_for('auth.login'))
     if not current_user.confirmed:
         if current_user.confirm(token):
             current_user.confirmed = True

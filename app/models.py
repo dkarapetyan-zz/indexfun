@@ -1,6 +1,8 @@
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import current_app
+from flask import current_app, flash
+
+from .mail import send_email
 
 from . import db, login_manager
 
@@ -45,6 +47,14 @@ class User(db.Model):
         if data.get('confirm') != self.id:
             return False
         return True
+
+    def send_confirmation(self):
+        token = self.generate_confirmation_token()
+        send_email(self.email, 'Confirm Your Account',
+                   'auth/confirm_email',
+                   user=self, token=token)
+        flash('A confirmation email has been sent via email. Please click'
+              ' its enclosed link to enable your account and login.')
 
     #### for flask-login
     def is_active(self):

@@ -1,7 +1,6 @@
-from flask_mail import Message
+from flask.ext.mail import Message
 from flask import render_template
 
-from app import mail
 from manage import app
 
 

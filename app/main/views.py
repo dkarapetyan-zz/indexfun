@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for
 from flask.ext.login import login_required, LoginManager
 
+from main.forms import Invest, Liquid, AutoInvest, BankInfo
 from . import main
 
 __author__ = 'davidkarapetyan'
@@ -14,29 +15,39 @@ login_manager.login_message_category = "info"
 @main.route('/', methods=["GET", "POST"])
 @login_required
 def index():
-    return render_template('layout.html', page_to_insert="index.html")
+    form = Invest()
+    if form.validate_on_submit():
+        return redirect(url_for('main.liquid'))
+    else:
+        return render_template("main/index.html", form=form)
 
 
 @main.route("/liquid", methods=["GET", "POST"])
 @login_required
 def liquid():
-    # filled = request.form.getlist("check")
-    if request.method == "POST":
+    form = Liquid()
+    if form.validate_on_submit():
         return redirect(url_for("main.bank"))
-    return render_template("layout.html", page_to_insert="liquid.html")
+    else:
+        return render_template("main/liquid.html", form=form)
 
 
 @main.route("/bank", methods=["GET", "POST"])
 @login_required
 def bank():
-    if request.method == "POST":
+    form = BankInfo()
+    if form.validate_on_submit():
         return redirect(url_for("main.recurring"))
-    return render_template("layout.html", page_to_insert="bank.html")
+    else:
+        return render_template("main/bank.html", form=form)
 
 
 @main.route("/recurring", methods=["GET", "POST"])
 @login_required
 def recurring():
-    if request.method == "POST":
+    form = AutoInvest()
+    if form.validate_on_submit():
         return redirect(url_for("main.index"))
-    return render_template("layout.html", page_to_insert="recurring.html")
+    else:
+        return render_template("main/recurring.html",
+                               form=form)

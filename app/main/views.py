@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for
 from flask.ext.login import login_required, LoginManager
 
-from main.forms import Invest, Liquid, AutoInvest, BankInfo
+from .forms import Invest, Liquid, AutoInvest, BankInfo
 from . import main
 
 __author__ = 'davidkarapetyan'

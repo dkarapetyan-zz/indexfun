@@ -1,13 +1,16 @@
 from flask_wtf import Form
-from wtforms import FloatField, BooleanField, SubmitField, StringField
+from wtforms import BooleanField, SubmitField, StringField, IntegerField
 
-from wtforms.validators import number_range, DataRequired, Length, Regexp
+from wtforms.validators import NumberRange, DataRequired, Length, Regexp
 
 __author__ = 'davidkarapetyan'
 
+act_message = "Account numbers are between 1 and 17 digits long."
+route_message = "Routing numbers are 9 digits long. Please enter all 9 digits."
+
 
 class Invest(Form):
-    money = FloatField('Amount (in $)', validators=[number_range(min=0)])
+    money = IntegerField('Amount (in $)', validators=[NumberRange(min=0)])
     submit = SubmitField('Submit')
 
 
@@ -22,21 +25,19 @@ class AutoInvest(Form):
 
 
 class BankInfo(Form):
-    StringField("Bank Name", validators=[
+    bank = StringField("Bank", validators=[
         DataRequired(), Length(1, 64), Regexp('^[A-Za-z\s]*$', 0,
                                               'Usernames must have only '
                                               'letters and spaces. '
                                               )])
-    FloatField("Account Number",
-               validators=[DataRequired(),
-                           Length(1, 17, "Please enter an account number."
-                                         " It should be between 1 and 17 digits")])
-    FloatField("Routing Number",
-               validators=[
-                   DataRequired(), Length(9, 9, message="Routing numbers "
-                                                        "are 9 digits long. "
-                                                        "Please check to make "
-                                                        "sure you have entered "
-                                                        "all 9 digits.")])
+    account_number = StringField("Account Number",
+                                 validators=[
+                                     DataRequired(), Length(1, 17, act_message),
+                                     Regexp('^[0-9]', 0, act_message)])
+    routing_number = StringField("Routing Number",
+                                 validators=[
+                                     DataRequired(),
+                                     Length(9, 9, route_message),
+                                     Regexp('^[0-9]', 0, route_message)])
 
     submit = SubmitField('Submit')

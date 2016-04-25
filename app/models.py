@@ -1,35 +1,53 @@
 from flask import current_app, flash
+from flask.ext.bcrypt import check_password_hash, generate_password_hash
 from flask.ext.login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db, login_manager
 from .mail import send_email
 
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+# class Role(db.Model):
+#     __tablename__ = 'roles'
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(64), unique=True)
+#
+#     def __repr__(self):
+#         return '<Role %r>' % self.name
 
-    def __repr__(self):
-        return '<Role %r>' % self.name
+class BankAccount(db.Model):
+    __tablename__ = 'bank_accounts'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    bank_name = db.Column(db.String(64))
+    bank_account_hash = db.Column(db.String(128), unique=True)
+    bank_password_hash = db.Column(db.String(128))
+
+    def __init__(self, bank_name=None, bank_account_hash=None,
+                 bank_password_hash=None):
+        self.bank_name = bank_name
+        self.bank_account_hash = generate_password_hash(bank_account_hash)
+        self.bank_password_hash = generate_password_hash(bank_password_hash)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class User(db.Model, UserMixin, AnonymousUserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
+    user_password_hash = db.Column(db.String(128))
     email = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, default=False)
 
-    def __init__(self, username=None, password=None, email=None,
-                 confirmed=False):
+    def __init__(self, username=None, userpassword=None, email=None,
+                 confirmed=False, bank_account=None, bank_password=None):
         self.username = username
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(userpassword)
         self.email = email
         self.confirmed = confirmed
+        self.bank_account = generate_password_hash(bank_account)
+        self.bank_password = generate_password_hash(bank_password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
